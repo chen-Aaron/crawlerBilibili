@@ -34,7 +34,7 @@ function getAids(){
 
     let path = url.replace('$page', page);
 
-    request(path, { timeout: 1500 }, (err, res, body) => {
+    request(path, { timeout: 15000 }, (err, res, body) => {
         try {
             if(!err) body = JSON.parse(body);
 
