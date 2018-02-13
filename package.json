@@ -1,0 +1,26 @@
+{
+  "name": "crawlers",
+  "version": "1.0.0",
+  "description": "爬取b站弹幕",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chen-Aaron/crawlerBilibili.git"
+  },
+  "keywords": [
+    "弹幕，爬虫"
+  ],
+  "author": "chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chen-Aaron/crawlerBilibili/issues"
+  },
+  "homepage": "https://github.com/chen-Aaron/crawlerBilibili#readme",
+  "devDependencies": {
+    "mysql": "^2.15.0",
+    "request": "^2.83.0"
+  }
+}
