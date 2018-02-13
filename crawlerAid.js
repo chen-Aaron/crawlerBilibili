@@ -43,8 +43,8 @@ function getAids(){
             let list = [];
 
             if (err) {
-                helpError(tid[0], page);
-
+                // helpError(tid[0], page);
+                getAids();
                 console.log('its an get error');
             } 
             else if (body.code === 0 && body.data.archives.length>0) {
