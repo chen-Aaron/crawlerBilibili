@@ -72,7 +72,7 @@ function getAids(){
                     list.push(temp);
                 })
 
-                Mysql.InsertAid(list, (fields) => {
+                Mysql.InsertAid(list, (field) => {
                     if (field !== undefined) helpError(tid[0], page);
                     console.log(page);
                     page++;
