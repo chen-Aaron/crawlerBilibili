@@ -12,7 +12,7 @@ const moment = require('moment');
 // };
 //阿里云mysql数据库
 var config={
-  host	   : '127.0.0.1',
+  host	   : '47.91.233.62',
   user     : 'root',
   password : 'zhuanyon',
   database : 'bilibili',
@@ -102,10 +102,10 @@ function InsertVideoInfo(info, callback){
 }
 
 // 获取cid,查看status状态
-function getAids(callback){
+function getAids(table, callback){
 	var connection = mysql.createConnection(config);
 
-	let sql = 'select aid from video where status = 1 order by id ASC limit 1';
+	let sql = `select aid from ${table} where status = 1 order by id ASC limit 20`;
 
 	connection.query(sql, (err, result, fields) => {
 		if(err) callback(err);
@@ -117,15 +117,15 @@ function getAids(callback){
 }
 
 // 重置video信息状态
-function setAids(aids, callback){
+function setAids(aids, table, callback){
 	var connection = mysql.createConnection(config);
 
-	let sql = 'UPDATE video set status=0 where ';
+	let sql = `UPDATE ${table} set status=0 where `;
 
 	let val = '';
 
 	aids.forEach((aItem)=>{
-		val+=`or aid = ${aItem.aid}`;
+		val+=` or aid = ${aItem.aid}`;
 	})
 
 	val = val.replace('or', '');
