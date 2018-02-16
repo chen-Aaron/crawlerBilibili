@@ -22,5 +22,8 @@
   "devDependencies": {
     "mysql": "^2.15.0",
     "request": "^2.83.0"
+  },
+  "dependencies": {
+    "moment": "^2.20.1"
   }
 }

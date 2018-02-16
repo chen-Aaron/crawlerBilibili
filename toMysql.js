@@ -1,5 +1,7 @@
 var mysql = require('mysql');
 
+const moment = require('moment');
+
 //数据库配置-本地mysql数据库
 // var config={
 //   host     : 'localhost',
@@ -10,7 +12,7 @@ var mysql = require('mysql');
 // };
 //阿里云mysql数据库
 var config={
-  host	   : '47.91.233.62',
+  host	   : '127.0.0.1',
   user     : 'root',
   password : 'zhuanyon',
   database : 'bilibili',
@@ -80,6 +82,68 @@ function InsertAid(Aids, callback){
 	return true;
 }
 
+function InsertVideoInfo(info, callback){
+	var connection = mysql.createConnection(config);
+
+	var sql = "insert into videoInfo (accept_format, accept_quality, cid, durl, fromview, hit_ssd_sid, img, result, seek_param, seek_type, timelength, time, aid) VALUES ";
+	var values = '';
+	let time = moment().format('YYYY-MM-DD HH:mm:ss');
+	info.forEach(function (aItem) {
+		values += `,('${aItem.accept_format}', '${aItem.accept_quality}', '${aItem.cid}', '${aItem.durl}', '${aItem.fromview}', '${aItem.hit_ssd_sid}', '${aItem.img}', '${aItem.result}', '${aItem.seek_param}', '${aItem.seek_type}', '${aItem.timelength}', '${time}', '${aItem.aid}')`;
+	});
+	values = values.replace(',', '');
+	sql = sql + values;
+	connection.query(sql, function (error, results, fields) {
+		if (error) callback(error);
+		callback();
+	});
+	connection.end();
+	return true;
+}
+
+// 获取cid,查看status状态
+function getAids(callback){
+	var connection = mysql.createConnection(config);
+
+	let sql = 'select aid from video where status = 1 order by id ASC limit 1';
+
+	connection.query(sql, (err, result, fields) => {
+		if(err) callback(err);
+		callback(result);
+	})
+	connection.end();
+	return true;
+
+}
+
+// 重置video信息状态
+function setAids(aids, callback){
+	var connection = mysql.createConnection(config);
+
+	let sql = 'UPDATE video set status=0 where ';
+
+	let val = '';
+
+	aids.forEach((aItem)=>{
+		val+=`or aid = ${aItem.aid}`;
+	})
+
+	val = val.replace('or', '');
+
+	sql += val; 
+
+	console.log(sql)
+
+	connection.query(sql, (err, result, field)=>{
+		if(err) callback(err);
+		callback()
+	})
+	connection.end();
+	return true;
+}
+
+
+
 function InsertMysqlWeibo (  weibos ){
 	var connection = mysql.createConnection( config );
 
@@ -105,4 +169,7 @@ module.exports.MysqlQuery=MysqlQuery;
 module.exports.InsertMysqlWeibo=InsertMysqlWeibo;
 module.exports.InsertAid = InsertAid;
 module.exports.InsertError = InsertError;
+module.exports.getAids = getAids;
+module.exports.setAids = setAids;
+module.exports.InsertVideoInfo = InsertVideoInfo;
 
