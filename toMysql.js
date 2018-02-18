@@ -12,7 +12,7 @@ const moment = require('moment');
 // };
 //阿里云mysql数据库
 var config={
-  host	   : '127.0.0.1',
+  host	   : '47.91.233.62',
   user     : 'root',
   password : 'zhuanyon',
   database : 'bilibili',

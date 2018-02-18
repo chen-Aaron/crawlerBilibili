@@ -55,7 +55,7 @@ class crawlerCid{
         };
 
         return new Promise((resolve, reject)=>{
-            this._request(option, (err, res, body) => {
+            this._request(option, { timeout: 1500 }, (err, res, body) => {
                 try {
                     console.log(aid);
                     if (!err) body = JSON.parse(body);
