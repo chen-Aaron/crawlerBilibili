@@ -105,7 +105,7 @@ function InsertVideoInfo(info, callback){
 function getAids(table, callback){
 	var connection = mysql.createConnection(config);
 
-	let sql = `select aid from ${table} where status = 1 order by id ASC limit 20`;
+	let sql = `select aid from ${table} where status = 1 order by id ASC limit 10`;
 
 	connection.query(sql, (err, result, fields) => {
 		if(err) callback(err);
