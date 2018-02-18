@@ -93,20 +93,24 @@ class crawlerCid{
     }
 
     setInfo(){
-        this._Mysql.InsertVideoInfo(this._infoList, (err) => {
-            if(err) {
-                throw new Error('its a insert error')
-            } else {
-                this._Mysql.setAids(this._infoList, this._table, (err)=>{
-                    if (err) {
-                        new Error('its a update error');
-                    } else {
-                        console.log('success');
-                        this.getVideoInfo();
-                    }
-                });
-            }
-        })
+        if(this._infoList.length>0){
+            this._Mysql.InsertVideoInfo(this._infoList, (err) => {
+                if (err) {
+                    throw new Error('its a insert error')
+                } else {
+                    this._Mysql.setAids(this._infoList, this._table, (err) => {
+                        if (err) {
+                            new Error('its a update error');
+                        } else {
+                            console.log('success');
+                            this.getVideoInfo();
+                        }
+                    });
+                }
+            })
+        }else{
+            this.getVideoInfo();
+        }
     }
 
 }
