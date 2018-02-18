@@ -62,8 +62,9 @@ class crawlerCid{
                     if (!err) body = JSON.parse(body);
                     if (err) {
                         console.log('its an get error');
-                    } else if (body.result) {
+                    } else if (body.cid) {
                         this._time++;
+                        let length = body.timelength ? body.timelength : 0;
                         let temp = {
                             accept_format: escape(body.accept_format), 
                             accept_quality: escape(JSON.stringify(body.accept_quality)), 
@@ -76,7 +77,7 @@ class crawlerCid{
                             seek_param: escape(body.seek_param), 
                             seek_type: escape(body.seek_type), 
                             aid: aid,
-                            timelength: escape(body.timelength)
+                            timelength: escape(length)
                         };
 
                         this._infoList.push(temp);

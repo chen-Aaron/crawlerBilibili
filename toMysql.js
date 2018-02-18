@@ -93,6 +93,7 @@ function InsertVideoInfo(info, callback){
 	});
 	values = values.replace(',', '');
 	sql = sql + values;
+	console.log(sql)
 	connection.query(sql, function (error, results, fields) {
 		if (error) callback(error);
 		callback();
