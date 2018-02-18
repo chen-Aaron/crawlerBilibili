@@ -16,6 +16,7 @@ class crawlerCid{
         this._list = [];
         this._infoList = [];
         this._table = table.splice(0, 1);
+        this._errList = [];
     }
 
     getVideoInfo() {
@@ -79,6 +80,8 @@ class crawlerCid{
                         };
 
                         this._infoList.push(temp);
+                    } else if (body.code === 40002){
+                        this._errList.push({aid: aid})
                     }
 
                     resolve();
@@ -103,7 +106,20 @@ class crawlerCid{
                             new Error('its a update error');
                         } else {
                             console.log('success');
-                            this.getVideoInfo();
+                            this._infoList=[];
+                            if(this._errList.length){
+                                this._Mysql.dealError(this._errList, this._table, (err) => {
+                                    if (err) {
+                                        new Error('its a error')
+                                    } else {
+                                        console.log('update')
+                                    }
+                                })
+                                this.getVideoInfo();
+                            } else{
+                                this.getVideoInfo();
+                            }
+                            
                         }
                     });
                 }

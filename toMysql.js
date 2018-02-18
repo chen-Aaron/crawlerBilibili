@@ -142,6 +142,31 @@ function setAids(aids, table, callback){
 	return true;
 }
 
+function dealError(errors, table, callback){
+	var connection = mysql.createConnection(config);
+
+	let sql = `UPDATE ${table} set status=2 where `;
+
+	let val = '';
+
+	errors.forEach((aItem) => {
+		val += ` or aid = ${aItem.aid}`;
+	})
+
+	val = val.replace('or', '');
+
+	sql += val;
+
+	console.log(sql)
+
+	connection.query(sql, (err, result, field) => {
+		if (err) callback(err);
+		callback()
+	})
+	connection.end();
+	return true;
+}
+
 
 
 function InsertMysqlWeibo (  weibos ){
@@ -172,4 +197,5 @@ module.exports.InsertError = InsertError;
 module.exports.getAids = getAids;
 module.exports.setAids = setAids;
 module.exports.InsertVideoInfo = InsertVideoInfo;
+module.exports.dealError = dealError;
 
