@@ -97,6 +97,7 @@ class crawlerCid{
     }
 
     setInfo(){
+        console.log('长度是:'+this._infoList.length)
         if(this._infoList.length>0){
             this._Mysql.InsertVideoInfo(this._infoList, (err) => {
                 if (err) {

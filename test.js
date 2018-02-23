@@ -1,1 +1,5 @@
 [59,152,153,28,47,25,179,157,39,156,177,184,36,65,145,158,161,124,19,22,160,127,96,26,170,54,32,173,37,175,172,176,121,27,1,119,4,86,95,75,11,83,3,17,29,85,51,146,154,23,128,5,159,98,13,162,24,30,183,20,129,82,163,76,71,137,31,21,166,130,147,167,185,168,155,187,182,174,138,180,169,181,164,33,122,136,165,171,126,178,131]
+
+https://cn-jsnj3-cmcc-v-15.acgvideo.com/vg3/5/b2/19058336-1-64.flv?expires=1518875700&platform=pc&ssig=pIbAiofg-KLMivk_NpjrWg&oi=1879897440&nfa=/d4WJBRFbgTvk+wbxLbRjA==&dynamic=1&hfa=2025535614&hfb=Yjk5ZmZjM2M1YzY4ZjAwYTMzMTIzYmIyNWY4ODJkNWI=
+http://cn-jsnt2-dx-v-02.acgvideo.com/vg3/2/09/19058336-1.mp4?expires=1518875700&amp;platform=html5&amp;ssig=NpyQDiGwXoOAXlF_lZeGxQ&amp;oi=1018537853&amp;nfa=lzuRTh2AZPjewgHtRiRHcw==&amp;dynamic=1&amp;hfa=2025535540&amp;hfb=M2Y2ZWYwZjM2YmRiYmY5MDljYTBiOWE2ZmEwYjJmYTM=
+http://cn-zjhz-cmcc-v-16.acgvideo.com/vg1/upgcxcode/36/83/19058336/19058336-1-16.mp4?expires=1518869700&platform=html5&ssig=yb1F1dD1JJ9GzolDsqPJbg&oi=1879897440&nfa=lzuRTh2AZPjewgHtRiRHcw==&dynamic=1&hfa=2025535843&hfb=M2Y2ZWYwZjM2YmRiYmY5MDljYTBiOWE2ZmEwYjJmYTM=
