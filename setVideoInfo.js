@@ -59,12 +59,19 @@ class crawlerCid{
             this._request(option, (err, res, body) => {
                 try {
                     console.log(aid);
+
                     if (!err) body = JSON.parse(body);
+
                     if (err) {
+
                         console.log('its an get error');
+
                     } else if (body.cid) {
+
                         this._time++;
+
                         let length = body.timelength ? body.timelength : 0;
+
                         let temp = {
                             accept_format: escape(body.accept_format), 
                             accept_quality: escape(JSON.stringify(body.accept_quality)), 
@@ -81,12 +88,14 @@ class crawlerCid{
                         };
 
                         this._infoList.push(temp);
+
                     } else if (body.code === 40002){
+
                         this._errList.push({aid: aid})
+
                     }
 
                     resolve();
-
 
                 } catch (e) {
                     console.log(e);
