@@ -52,7 +52,8 @@ class crawlerCid{
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
                 'Cookie': 'fts=1473940063; pgv_pvi=2678871040; rpdid=olpilpiloodopqwosspqw; buvid3=84403169-6D95-4AEC-8638-6DDF7D6CD5A76142infoc; LIVE_PLAYER_TYPE=2; UM_distinctid=15e6b209c3a5d-0ba97c431d11e2-31637e01-fa000-15e6b209c3b96; biliMzIsnew=1; biliMzTs=null; LIVE_BUVID=058fab8a43e136e389822802ebd51c93; LIVE_BUVID__ckMd5=c71c089f4f655d33; sid=8honsw9x; finger=14bc3c4e; bsource=bdts; bsource=bdts'
-            }
+            },
+            timeout: 2000
         };
 
         return new Promise((resolve, reject)=>{
