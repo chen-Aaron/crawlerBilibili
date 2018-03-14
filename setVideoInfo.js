@@ -132,18 +132,19 @@ class crawlerCid{
                         } else {
                             console.log('success');
                             this._infoList=[];
-                            if(this._errList.length){
-                                this._Mysql.dealError(this._errList, this._table, (err) => {
-                                    if (err) {
-                                        new Error('its a error')
-                                    } else {
-                                        console.log('update err')
-                                    }
-                                })
-                                this.getVideoInfo();
-                            } else{
-                                this.getVideoInfo();
-                            }
+                            this.getVideoInfo();
+                            // if(this._errList.length){
+                            //     this._Mysql.dealError(this._errList, this._table, (err) => {
+                            //         if (err) {
+                            //             new Error('its a error')
+                            //         } else {
+                            //             console.log('update err')
+                            //         }
+                            //     })
+                            //     this.getVideoInfo();
+                            // } else{
+                            //     this.getVideoInfo();
+                            // }
                             
                         }
                     });
