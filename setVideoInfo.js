@@ -24,7 +24,7 @@ class crawlerCid{
         this._Mysql.getAids(this._table, (result) => {
             if(result.length === 0){
                 this._table = table.splice(0,1);
-                if(this.table.length) this.getVideoInfo();
+                if(this._table.length) this.getVideoInfo();
 
             }else{
                 result.forEach((item) => {
