@@ -67,7 +67,7 @@ class crawlerCid{
                     if (err) {
 
                         console.log('its an get error');
-                        
+
                         this._errList.push({ aid: aid })
 
                     } else if (body.cid) {
@@ -111,6 +111,16 @@ class crawlerCid{
 
     setInfo(){
         console.log('长度是:'+this._infoList.length)
+        if (this._errList.length>0){
+            this._Mysql.dealError(this._errList, this._table, (err) => {
+                if (err) {
+                    new Error('its a error')
+                } else {
+                    this._errList = [];
+                    console.log('update err')
+                }
+            })
+        }
         if(this._infoList.length>0){
             this._Mysql.InsertVideoInfo(this._infoList, (err) => {
                 if (err) {
@@ -127,7 +137,7 @@ class crawlerCid{
                                     if (err) {
                                         new Error('its a error')
                                     } else {
-                                        console.log('update')
+                                        console.log('update err')
                                     }
                                 })
                                 this.getVideoInfo();
