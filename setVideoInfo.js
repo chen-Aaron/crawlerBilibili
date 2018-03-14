@@ -67,6 +67,8 @@ class crawlerCid{
                     if (err) {
 
                         console.log('its an get error');
+                        
+                        this._errList.push({ aid: aid })
 
                     } else if (body.cid) {
 
