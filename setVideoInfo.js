@@ -57,6 +57,7 @@ class crawlerCid{
         };
 
         return new Promise((resolve, reject)=>{
+            
             this._request(option, (err, res, body) => {
                 try {
                     console.log(aid);
