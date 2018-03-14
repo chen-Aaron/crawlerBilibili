@@ -91,7 +91,7 @@ class crawlerCid{
 
                         this._infoList.push(temp);
 
-                    } else if (body.code === 40002){
+                    } else if (body.code === 40002 || body.code === 40003){
 
                         this._errList.push({aid: aid})
 
