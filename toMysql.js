@@ -270,4 +270,5 @@ module.exports.InsertVideoInfo = InsertVideoInfo;
 module.exports.dealError = dealError;
 module.exports.getXmlList = getXmlList;
 module.exports.upDataXml = upDataXml;
+module.exports.dealXmlErr = dealXmlErr;
 
