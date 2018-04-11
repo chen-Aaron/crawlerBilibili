@@ -130,7 +130,7 @@ class CrawlerXml{
 
             this._request.get(option).on('error', () => {
 
-                self._errorList.push(item);
+                self._errorList.push(item.id);
 
                 resolve('error');
 
