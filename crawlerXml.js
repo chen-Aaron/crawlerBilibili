@@ -121,21 +121,44 @@ class CrawlerXml{
 
             let self = this;
 
+            let option = {
+                url: url,
+                timeout: 2000
+            };
+
             let cid = url.replace('https://comment.bilibili.com/', '');
 
-            this._request.get(url).pipe(zlib.InflateRaw()).pipe(fs.createWriteStream(`./${this._currentTable}/${cid}`)).on('finish', function (err) {
-                
+            this._request.get(option).pipe(zlib.InflateRaw()).pipe(fs.createWriteStream(`./${self._currentTable}/${cid}`)).on('finish', function (err) {
+
                 self._update.push(item.id);
 
                 resolve('finish');
-           
-            }).on('error', () => { 
+
+            }).on('error', () => {
 
                 self._errorList.push(item);
 
                 resolve('error');
 
-            });
+            });;
+
+        });
+
+    }
+
+    writeFiles(self, resolve, cid, item){
+
+        fs.createWriteStream(`./${self._currentTable}/${cid}`).on('finish', function (err) {
+
+            self._update.push(item.id);
+
+            resolve('finish');
+
+        }).on('error', () => {
+
+            self._errorList.push(item);
+
+            resolve('error');
 
         });
 
