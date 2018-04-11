@@ -156,7 +156,7 @@ class CrawlerXml{
 
         }).on('error', () => {
 
-            self._errorList.push(item);
+            self._errorList.push(item.id);
 
             resolve('error');
 
