@@ -128,19 +128,19 @@ class CrawlerXml{
 
             let cid = url.replace('https://comment.bilibili.com/', '');
 
-            this._request.get(option).pipe(zlib.InflateRaw()).pipe(fs.createWriteStream(`./${self._currentTable}/${cid}`)).on('finish', function (err) {
-
-                self._update.push(item.id);
-
-                resolve('finish');
-
-            }).on('error', () => {
+            this._request.get(option).on('error', () => {
 
                 self._errorList.push(item);
 
                 resolve('error');
 
-            });;
+            }).pipe(zlib.InflateRaw()).pipe(fs.createWriteStream(`./${self._currentTable}/${cid}`)).on('finish', function (err) {
+
+                self._update.push(item.id);
+
+                resolve('finish');
+
+            })
 
         });
 
