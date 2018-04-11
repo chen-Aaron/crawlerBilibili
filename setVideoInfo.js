@@ -16,6 +16,7 @@ class crawlerCid{
         this._list = [];
         this._infoList = [];
         this._table = table.splice(0, 1);
+        this._insertTable = `db_${this._table}`;
         this._errList = [];
     }
 
@@ -24,6 +25,7 @@ class crawlerCid{
         this._Mysql.getAids(this._table, (result) => {
             if(result.length === 0){
                 this._table = table.splice(0,1);
+                this._insertTable = `db_${this._table}`;
                 if(this._table.length) this.getVideoInfo();
 
             }else{
@@ -122,7 +124,7 @@ class crawlerCid{
             })
         }
         if(this._infoList.length>0){
-            this._Mysql.InsertVideoInfo(this._infoList, (err) => {
+            this._Mysql.InsertVideoInfo(this._infoList, this._insertTable, (err) => {
                 if (err) {
                     throw new Error('its a insert error')
                 } else {

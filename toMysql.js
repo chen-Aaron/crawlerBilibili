@@ -82,10 +82,10 @@ function InsertAid(Aids, callback){
 	return true;
 }
 
-function InsertVideoInfo(info, callback){
+function InsertVideoInfo(info, table, callback){
 	var connection = mysql.createConnection(config);
 
-	var sql = "insert into videoInfo (accept_format, accept_quality, cid, durl, fromview, hit_ssd_sid, img, result, seek_param, seek_type, timelength, time, aid) VALUES ";
+	var sql = `insert into ${table} (accept_format, accept_quality, cid, durl, fromview, hit_ssd_sid, img, result, seek_param, seek_type, timelength, time, aid) VALUES `;
 	var values = '';
 	let time = moment().format('YYYY-MM-DD HH:mm:ss');
 	info.forEach(function (aItem) {
@@ -189,6 +189,75 @@ function InsertMysqlWeibo (  weibos ){
 
 }
 
+function getXmlList(table, callback){
+	var connection = mysql.createConnection(config);
+
+	var sql = `select cid, id from ${table} where status = 0 limit 10 OFFSET 10 `;
+
+	connection.query(sql, function (error, results, fields) {
+		if (error) throw error;
+		callback(results);
+	});
+
+	connection.end();
+
+	return true;
+}
+
+// 重置xml信息状态
+function upDataXml(ids, table, callback) {
+	var connection = mysql.createConnection(config);
+
+	let sql = `UPDATE ${table} set status=1 where `;
+
+	let val = '';
+
+	ids.forEach((aItem) => {
+		val += ` or id = ${aItem}`;
+	})
+
+	val = val.replace('or', '');
+
+	sql += val;
+
+	console.log(sql)
+
+	connection.query(sql, (err, result, field) => {
+		if (err) callback(err);
+		callback()
+	})
+	connection.end();
+	return true;
+} 
+
+// 重置xml信息状态
+function dealXmlErr(ids, table, callback) {
+	var connection = mysql.createConnection(config);
+
+	let sql = `UPDATE ${table} set status=2 where `;
+
+	let val = '';
+
+	ids.forEach((aItem) => {
+		val += ` or id = ${aItem}`;
+	})
+
+	val = val.replace('or', '');
+
+	sql += val;
+
+	console.log(sql)
+
+	connection.query(sql, (err, result, field) => {
+		if (err) callback(err);
+		callback()
+	})
+	connection.end();
+	return true;
+} 
+
+
+
 // 方法暴露
 module.exports.connectMysqlStart=connectMysqlStart;
 module.exports.MysqlQuery=MysqlQuery;
@@ -199,4 +268,6 @@ module.exports.getAids = getAids;
 module.exports.setAids = setAids;
 module.exports.InsertVideoInfo = InsertVideoInfo;
 module.exports.dealError = dealError;
+module.exports.getXmlList = getXmlList;
+module.exports.upDataXml = upDataXml;
 

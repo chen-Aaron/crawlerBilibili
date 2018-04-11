@@ -1,0 +1,404 @@
+<!doctype html>
+<html class="no-js">
+<head>
+	<meta charset="utf-8">
+	<meta name="baidu-site-verification" content="O5DO1n0DYd" />
+	<meta name="google-site-verification" content="JpblxCnu30QFTXwwVV3BFBDP9ObDXUOXlhFWiVIYsOo" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="&lt;code&gt;fs&lt;/code&gt;模块提供了创建文件可读流与创建文件可写读的方法：fs.createReadStream()和fs. createWriteStream()，这两个方法分别分返回一个&lt;code&gt;Readable Stream&lt;/code&gt;对象和&lt;code&gt;Writable Stream&lt;/code&gt;对象。通过这两个对象，我们可以基于流的文件处理，在读写大文件及基于流的转接、暂停、读取等操作方面有很大的作用。" />
+	<title>Node.js文件系统模块fs创建可读流与可写流：fs.createReadStream()和fs. createWriteStream() - IT笔录</title>
+	<link rel="canonical" href="//itbilu.com/nodejs/core/Eyg7MCMMe.html"/>
+	<link rel="icon" href="/img/logo_32X32.ico" type="image/x-icon" />
+	<link href="//cdn.itbilu.com/css/main-min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header>
+     <div class="container">
+          <div class="navbar navbar-default" role="navigation">
+               <div class="navbar-header">
+                    <a class="navbar-brand" href="/"> 
+                         <img src="/img/logo.png" alt="optional logo" height="90" width="90"> 
+                         <span class="logo_title"><strong>IT笔录</strong></span> 
+                         <span class="logo_subtitle">学习，记录，整理</span> 
+                    </a>
+                    <a class="btn btn-navbar btn-default navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                         <span class="nb_left pull-left"> 
+                              <span class="fa fa-reorder"></span>
+                         </span>
+                         <span class="nb_right pull-right">menu</span>
+                    </a>
+               </div>
+               <div class="collapse navbar-collapse">
+                    <ul class="nav pull-right navbar-nav">
+                         <li ><a href="/">首页</a></li>
+                         <li  class="active"><a href="/nodejs">Nodejs</a></li>
+                         <li ><a href="/javascript">javaScript</a></li>
+                         <li ><a href="/database">数据库</a></li>
+                         <li ><a href="/linux">Linux</a></li>
+                         <li ><a href="/tools">工具</a></li>
+                         <li ><a href="/other">其它</a></li>
+                    </ul>
+               </div>
+          </div>
+     </div>
+</header>
+<div class="main">
+<div class="container">
+    <section>
+         <div class="row breadcrumb-row">
+      <ul class="breadcrumb">
+      	
+      		<li><a href="/">首页</a></li>
+      		
+      		    
+                <li><a href="/nodejs">Node.js</a></li>
+                
+                    <li><a href="/nodejs/core">基础、核心、API</a></li>
+                
+              
+      		
+      	
+      </ul>
+ </div>
+         <div class="row">
+              <div id="leftcol" class="col-sm-8 col-md-8">
+                 <h1>Node.js文件系统模块fs创建可读流与可写流：fs.createReadStream()和fs. createWriteStream()</h1>
+                   <p><i class="fa fa-clock-o" title="发布时间"></i>&nbsp;2015年11月04日
+                   &nbsp;&nbsp;
+                   <i class="fa fa-eye" title="阅读"></i>
+                   1663
+                   &nbsp;&nbsp;
+                   <span data-toggle="tooltip" title="声明：本站文章及示例基于特定的环境或软件版本，本站不为因参考本站文章引起的错误或损失负责。在使用前请自行验证是否可用于实际环境。如有纰漏或错误，欢迎进群指正、交流。"><i class="fa fa-exclamation-circle"></i>&nbsp;声明</span>
+                  </p>
+                   <article class="post">
+                        <div class="post_content">
+                        
+                        <p>
+	<br />
+</p>
+<p>
+	<code>fs</code>模块提供了创建文件可读流与创建文件可写读的方法：<code>fs.createReadStream()</code>和<code>fs. createWriteStream()</code>，这两个方法分别分返回一个<code>Readable Stream</code>对象和<code>Writable Stream</code>对象。通过这两个对象，我们可以基于流的文件处理，在读写大文件及基于流的转接、暂停、读取等操作方面有很大的作用。
+</p>
+<ol>
+	<li>
+		<a href="#fs-createReadStream"><code>fs.createReadStream()</code>创建可读流</a> 
+	</li>
+	<li>
+		<a href="#fs-createWriteStream"><code>fs.createWriteStream()</code>创建可写流</a> 
+	</li>
+</ol>
+<p>
+	<br />
+</p>
+<h3 id="fs-createReadStream">
+	1. <code>fs.createReadStream()</code>创建可读流
+</h3>
+<pre>fs.createReadStream(path[, options])</pre>
+<p>
+	该方法会读取指定文件，并返回一个<a href="#fs-readStream">ReadStream</a>对象。
+</p>
+<p>
+	<code>path</code>是要创建可读流的文件的路径。
+</p>
+<p>
+	要知道，通过方法返回的可读流，其默认的<code>highWaterMark</code>值是64K，不同于一般可读流的16K。
+</p>
+<p>
+	<code>options</code>是创建选项，可是一个字符串或对象。其默认值如下：
+</p>
+<pre>{ flags: 'r',
+  encoding: null,
+  fd: null,
+  mode: 0o666,
+  autoClose: true
+}</pre>
+<p>
+	<code>options</code>选项中还可以包含<code>start</code> 和 <code>end</code> 选项，用于设置读取文件的位置范围，而不是读取整个文件。
+</p>
+<p>
+	<code>encoding</code>可以是：<code>'utf8'</code>、<code>'ascii'</code>、<code>'base64'</code>。
+</p>
+<p>
+	如果提供了文件描述符<code>fd</code> 值，<code>ReadStream</code> 将会忽略<code>path</code> 参数并从文件描述创建可读流。但种创建方法不会触发任何<code>'open'</code>事件。
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<strong id="fs-readStream"><code>Class: fs.ReadStream</code>简单介绍</strong> 
+</p>
+<p>
+	该对象由<code>fs.createReadStream()</code>创建返回，是一个<a href="http://itbilu.com/nodejs/core/4y3SPWbS.html#readable" target="_blank">ReadStream</a>。该可读流对象不同于其它可读流不是的一点是，该对象包含一个<code>'open'</code>事件。
+</p>
+<p>
+	如果<code>options</code>为字符串，其值表示编码方式。
+</p>
+<p>
+	<code>Event:'open'</code>，该事件会在创建文件<code>ReadStream</code>时触发，其回调函数参数是一个文件描述。
+</p>
+<ul>
+	<li>
+		<code>fd</code> {Integer} ReadStream 所使用的文件描述符。
+	</li>
+</ul>
+<p>
+	例如，以流的方法读取<code>/etc/passwd</code>文件内容：
+</p>
+<pre>var fs = require('fs');
+
+var readStream = fs.createReadStream('/etc/passwd')
+
+readStream.on('open', function(fd){
+    console.log('文件已打开');
+});
+
+readStream.on('data', function(data){
+    console.log('收到文件数据');
+    console.log(data.toString());
+});</pre>
+<p>
+	<br />
+</p>
+<h3 id="fs-createWriteStream">
+	2. <code>fs.createWriteStream()</code>创建可写流
+</h3>
+<pre>fs.createWriteStream(path[, options])</pre>
+<p>
+	创建一个<a href="#fs-writeStream">WriteStream</a>对象。
+</p>
+<p>
+	<code>options</code>是创建选项，可是一个字符串或对象。其默认值如下：
+</p>
+<pre>{ flags: 'w',
+  defaultEncoding: 'utf8',
+  fd: null,
+  mode: 0o666 }</pre>
+<p>
+	<code>options</code> 中也可以包含一个<code>start</code>的可选项，该选项用于指定在文件中开始写入数据的位置。
+</p>
+<p>
+	如果只想修改而不替换文件，只需将<code>flags</code>值修改为<code>r+</code>即可。
+</p>
+<p>
+	<code>encoding</code>可以是：<code>'utf8'</code>、<code>'ascii'</code>、<code>'base64'</code>。
+</p>
+<p>
+	像<code>ReadStream</code>一样，如果提供了文件描述符<code>fd</code> 值，<code>WriteStream</code> 将会忽略<code>path</code> 参数并从文件描述创建可读流。但种创建方法不会触发任何<code>'open'</code>事件。
+</p>
+<p>
+	如果<code>options</code>为字符串，其值表示编码方式。
+</p>
+<p>
+	<br />
+</p>
+<p>
+	<strong id="fs-writeStream">fs.WriteStream简单介绍</strong> 
+</p>
+<p>
+	该对象由<code>fs.WriteStream()</code>创建返回，是一个<a href="http://itbilu.com/nodejs/core/4y3SPWbS.html#writeable" target="_blank">WriteStream</a>。
+</p>
+<p>
+	<code>Event:'open'</code>，该事件会在创建文件<code>ReadStream</code>时触发，其回调函数参数是一个文件描述。
+</p>
+<ul>
+	<li>
+		<code>fd</code> {Integer} ReadStream 所使用的文件描述符。
+	</li>
+</ul>
+<p>
+	例如，读取<code>/etc/passwd</code>文件内容，并将其写入<code>./myFile.txt</code>文件：
+</p>
+<pre>var fs = require('fs');
+
+var readStream = fs.createReadStream('/etc/passwd')
+var writeStream = fs.createWriteStream('./myFile.txt')
+
+readStream.on('data', function(data){
+    writeStream.write(data);
+});</pre>
+                        </div>
+                   </article>
+                   <div>
+
+	<p>下一篇：<a href="/nodejs/core/NyzN9yJ7g.html">Node.js文件系统模块fs文件目录操作：fs.mkdir()、fs.readdir()、fs.rmdir()</a>
+
+
+	<p>上一篇：<a href="/nodejs/core/N19sCNGfe.html">Node.js文件系统模块fs的两种文件写入方式比较：fs.write()和fs. writeFile()</a>
+
+</div>
+              </div>
+
+              <div id="sidebar" class="col-sm-4 col-md-4">
+                  <aside class="widget">
+    <form method="post" action="/search" class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-9">
+            <input placeholder="关键字" name="keyword" class="form-control" type="text"  >
+        </div>
+        <div class="col-sm-3">
+            <button type="submit" class="btn btn-default">&nbsp;&nbsp;搜索&nbsp;&nbsp;</button>
+        </div>
+    </div>
+    </form>
+</aside>
+                  
+<aside class="widget">
+    <h4>文章分类</h4>
+    <ul class="grove-list">
+    
+    	
+    		<li class="active"><a href="#">基础、核心、API</a></li>
+    	
+    
+    	
+    		<li><a href="/nodejs/npm">包、应用</a></li>
+    	
+    
+    </ul>
+</aside>
+
+                  
+<aside class="widget">
+    <h4>阅读排行</h4>
+    <ul class="grove-list">
+        
+        <li> <h5 class="media-heading"><a href="/nodejs/npm/VkYIaRPz-.html">Sequelize 中文API文档－1. 快速入门、Seq...</a> (76304)</h5>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/nodejs/npm/V1PExztfb.html">Sequelize 中文API文档－2. Model 的定...</a> (71886)</h5>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/linux/management/NymXRUieg.html">解决类似 /usr/lib64/libstdc++.so....</a> (24416)</h5>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/nodejs/npm/41qaV3czb.html">Sequelize 中文API文档－3. 模型（表）之间的...</a> (21947)</h5>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/nodejs/npm/VJIR1CjMb.html">Sequelize 中文API文档－4. 查询与原始查询</a> (21869)</h5>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/other/relate/EkwKysXIl.html">HTTP请求方法：GET、HEAD、POST、PUT、DE...</a> (10852)</h5>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/linux/management/V1vdnt9ll.html">Linux升级安装GCC</a> (8557)</h5>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/other/relate/4kHBsx_Pg.html">MQTT协议－MQTT协议简介及协议原理</a> (8523)</h5>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/nodejs/npm/N1sdaHTzb.html">Sequelize 中文API文档－5. 实例的使用、In...</a> (8188)</h5>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/javascript/js/41KMSZ9a.html">［ES6］Promise对象Promise.all()方法...</a> (7936)</h5>
+         </li>
+        
+    </ul>
+</aside>
+
+                  <aside class="widget">
+    <h4>最新文章</h4>
+    <ul class="grove-list">
+    
+        
+        <li> <h5 class="media-heading"><a href="/nodejs/npm/S1BhIhdtG.html">Sequelize 嵌套模型查询及嵌套模型字段排序</a></h5>
+              <p>Sequelize 的“嵌套模型查询”最终会生成SQL“连接查询”语句，即生成'inner joi...</p>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/nodejs/npm/By7L5p3ff.html">gyp 文件输入格式参考</a></h5>
+              <p><code>GYP</code>（node-gyp）基于<code>.gyp</code>文件构建...</p>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/nodejs/npm/Hy7CrXe-f.html">Pomelo 前端服务器与客户端的通讯</a></h5>
+              <p>处理和响应客户端请求是 Pomelo 核心任务之一，客户端请求处理过程中会涉及很多组件，包括<co...</p>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/nodejs/npm/Hklq5OweM.html">node-gyp 编译 addon 时使用的 .gyp 文...</a></h5>
+              <p>Node.js基于GYP（Generate Your Projects）构建C\C++插件，在编译...</p>
+         </li>
+        
+        <li> <h5 class="media-heading"><a href="/other/relate/Vy1iDBcJE.html">Mac及CentOS下安装OpenCV</a></h5>
+              <p>OpenCV是一个开源跨平台计算机视觉库，其基于BSD开源许可发布。它提供了C++、C、Pytho...</p>
+         </li>
+        
+    
+    </ul>
+</aside>
+                  <!-- <aside class="widget">
+    <h4>广告</h4>
+    <p><a href="http://redirect.simba.taobao.com/rd?w=unionnojs&f=http%3A%2F%2Fai.taobao.com%2Fauction%2Fedetail.htm%3Fe%3D80FuZnNB1TS6k0Or%252B%252BH4tPg7Qoo6gIwW72fxp1Fq8BiLltG5xFicOdXrTUTgh9sMDPIwxrc30rhDsYaO8QAt%252FkUldzjpLCiPsn0%252BfXTZJrM4I6TE1Mm7FG3abJM7sDg2X7UB%252FLMklcjcDCUJyXw5Pg%253D%253D%26ptype%3D100010%26from%3Dbasic&k=5ccfdb950740ca16&c=un&b=alimm_0&p=mm_26749822_9476439_31826248" rel="nofollow">一包饼〜〜〜</a></p>
+</aside> -->
+                  
+
+                  <aside class="widget">
+    <h4>交流群：564850876</h4>
+    <p><img src="/img/qq-group.png" alt="交流群：564850876" /></p>
+</aside>
+                  <!-- <aside class="widget last">
+	<h4>友情链接</h4>
+	<ul class="grove-list">
+	     <li><a href="http://www.koocode.com" target="_blank">酷码</a></li>
+	</ul>
+</aside> -->
+              </div>
+         </div>
+    </section>
+</div>
+<script type="text/javascript">
+var xhr = new XMLHttpRequest();
+xhr.open("put", "/nodejs/core/Eyg7MCMMe.html", true);
+// xhr.onreadystatechange = function() { if (xhr.readyState == 4) {console.log(xhr.responseText);}}
+xhr.send();
+</script>
+<footer>
+<div class="container">
+    <!-- <div class="row info">
+        <div class="col-sm-3 residence">
+        
+        </div>
+        <div class="col-sm-5 touch">
+            <ul>
+                <li><strong></strong></li>
+                <li>email：</strong>cn.liuht@gmail.com</li>
+            </ul>
+        </div>
+    </div> -->
+    <div class="row credits">
+        <div class="col-md-12">
+            <div class="row copyright">
+                <div class="col-md-12">
+                 Copyright ©2015-2017 www.itbilu.com all rights reserved<a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备11014171号-3</a>
+                </div>
+            </div>
+        </div>            
+    </div>
+</div>
+</footer>
+</div>
+<script type="text/javascript" src="//cdn.itbilu.com/js/main-min.js"></script>
+<script type="text/javascript">
+	$(function () { $("[data-toggle='tooltip']").tooltip(); });
+	
+	var _hmt = _hmt || [];
+	(function() {
+	  var hm = document.createElement("script");
+	  hm.src = "//hm.baidu.com/hm.js?2249745ad1ce80c1744fc6aede553fc1";
+	  var s = document.getElementsByTagName("script")[0]; 
+	  s.parentNode.insertBefore(hm, s);
+	})();
+	 
+	(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+	})();
+</script>
+</body>
+</html>

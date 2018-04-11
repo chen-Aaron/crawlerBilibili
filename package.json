@@ -21,9 +21,16 @@
   "homepage": "https://github.com/chen-Aaron/crawlerBilibili#readme",
   "devDependencies": {
     "mysql": "^2.15.0",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "sax": "^1.2.4"
   },
   "dependencies": {
-    "moment": "^2.20.1"
+    "axios": "^0.18.0",
+    "iconv-lite": "^0.4.19",
+    "ioredis": "^3.2.2",
+    "moment": "^2.20.1",
+    "node-xml": "^1.0.2",
+    "through2": "^2.0.3",
+    "xmlreader": "^0.2.3"
   }
 }
