@@ -219,8 +219,6 @@ function getErrXmlList(table, callback) {
 	return true;
 }
 
-fun
-
 // 重置xml信息状态
 function upDataXml(ids, table, callback) {
 	var connection = mysql.createConnection(config);
