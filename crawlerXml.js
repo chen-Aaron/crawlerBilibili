@@ -83,7 +83,7 @@ class CrawlerXml{
 
     getList(){
 
-        this._Mysql.getXmlList(this._currentTable, (result) => {
+        this._Mysql.getErrXmlList(this._currentTable, (result) => {
 
             if (result.length > 0) {
 
@@ -184,7 +184,7 @@ class CrawlerXml{
 
         if (this._errorList.length) {
 
-            this._Mysql.dealXmlErr(this._errorList, this._currentTable, (err) => {
+            this._Mysql.dealXmlErrs(this._errorList, this._currentTable, (err) => {
 
                 if (!err) {
 

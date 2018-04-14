@@ -204,6 +204,23 @@ function getXmlList(table, callback){
 	return true;
 }
 
+function getErrXmlList(table, callback) {
+	var connection = mysql.createConnection(config);
+
+	var sql = `select cid, id from ${table} where status = 2 limit 30 OFFSET 30 `;
+
+	connection.query(sql, function (error, results, fields) {
+		if (error) throw error;
+		callback(results);
+	});
+
+	connection.end();
+
+	return true;
+}
+
+fun
+
 // 重置xml信息状态
 function upDataXml(ids, table, callback) {
 	var connection = mysql.createConnection(config);
@@ -235,6 +252,31 @@ function dealXmlErr(ids, table, callback) {
 	var connection = mysql.createConnection(config);
 
 	let sql = `UPDATE ${table} set status=2 where `;
+
+	let val = '';
+
+	ids.forEach((aItem) => {
+		val += ` or id = ${aItem}`;
+	})
+
+	val = val.replace('or', '');
+
+	sql += val;
+
+	console.log(sql)
+
+	connection.query(sql, (err, result, field) => {
+		if (err) callback(err);
+		callback()
+	})
+	connection.end();
+	return true;
+} 
+
+function dealXmlErrs(ids, table, callback) {
+	var connection = mysql.createConnection(config);
+
+	let sql = `UPDATE ${table} set status=3 where `;
 
 	let val = '';
 
