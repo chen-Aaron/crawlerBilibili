@@ -309,6 +309,9 @@ module.exports.setAids = setAids;
 module.exports.InsertVideoInfo = InsertVideoInfo;
 module.exports.dealError = dealError;
 module.exports.getXmlList = getXmlList;
+module.exports.getErrXmlList = getErrXmlList;
+
 module.exports.upDataXml = upDataXml;
 module.exports.dealXmlErr = dealXmlErr;
+module.exports.dealXmlErrs = dealXmlErrs;
 
