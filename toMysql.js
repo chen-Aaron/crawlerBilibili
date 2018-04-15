@@ -207,7 +207,7 @@ function getXmlList(table, callback){
 function getErrXmlList(table, callback) {
 	var connection = mysql.createConnection(config);
 
-	var sql = `select cid, id from ${table} where status = 3 limit 30 OFFSET 30 `;
+	var sql = `select cid, id from ${table} where status = 4 limit 30 OFFSET 30 `;
 
 	connection.query(sql, function (error, results, fields) {
 		if (error) throw error;
@@ -274,7 +274,7 @@ function dealXmlErr(ids, table, callback) {
 function dealXmlErrs(ids, table, callback) {
 	var connection = mysql.createConnection(config);
 
-	let sql = `UPDATE ${table} set status=4 where `;
+	let sql = `UPDATE ${table} set status=5 where `;
 
 	let val = '';
 
